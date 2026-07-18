@@ -1,6 +1,14 @@
-# Multi-Chronomètres Colorés
+<p align="center">
+  <img src="assets/logo.png" alt="Logo Multi-Chronomètres Colorés" width="160">
+</p>
 
-[![Télécharger](https://img.shields.io/badge/⬇️_T%C3%A9l%C3%A9charger-2ecc71?style=for-the-badge)](https://github.com/Popolia/multi-chronom-tres-color-s/archive/refs/heads/main.zip)
+<h1 align="center">Multi-Chronomètres Colorés</h1>
+
+<p align="center">
+  <a href="https://github.com/Popolia/multi-chronom-tres-color-s/archive/refs/heads/main.zip">
+    <img src="https://img.shields.io/badge/⬇️_T%C3%A9l%C3%A9charger-2ecc71?style=for-the-badge" alt="Télécharger">
+  </a>
+</p>
 
 Application de bureau (Windows) pour gérer plusieurs lignes indépendantes, chacune avec sa propre couleur, un compteur et un chronomètre. Pensée pour suivre plusieurs opérations, postes ou tâches en parallèle.
 
@@ -29,6 +37,9 @@ Application de bureau (Windows) pour gérer plusieurs lignes indépendantes, cha
 
 ```
 multi-chronomètres-colorés/
+├── assets/
+│   ├── logo.png                # Logo (utilisé dans ce README)
+│   └── logo.ico                # Icône pour l'exécutable Windows
 ├── gestionnaire_lignes.exe     # Application (à distribuer)
 ├── sauvegarde_lignes.json      # Généré automatiquement au 1er lancement
 ├── gestionnaire_lignes.py      # Code source
@@ -51,7 +62,7 @@ python gestionnaire_lignes.py
 python -m venv venv
 venv\Scripts\activate
 pip install pyinstaller
-python -m PyInstaller --onefile gestionnaire_lignes.py
+python -m PyInstaller --onefile --icon=assets/logo.ico gestionnaire_lignes.py
 ```
 
 L'exécutable final se trouve dans le dossier `dist/`.
