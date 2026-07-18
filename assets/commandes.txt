@@ -1,0 +1,93 @@
+=====================================================
+ AIDE-MEMOIRE - Multi-Chronometres Colores
+=====================================================
+
+--- SE PLACER DANS LE DOSSIER DU PROJET ---
+cd "C:\Users\Admin\Documents\GitHub\multi-chronometres-colores"
+
+
+--- PROBLEME "python n'est pas reconnu" (alias Windows) ---
+Verifier que Python est installe :
+    py --version
+
+Si ca marche mais pas "python", desactiver l'alias :
+    Parametres > Applications > Parametres avances des applications
+    > Alias d'execution d'applications
+    -> Desactiver python.exe et python3.exe
+    (puis fermer/rouvrir PowerShell)
+
+
+--- CREER ET ACTIVER L'ENVIRONNEMENT VIRTUEL (venv) ---
+Creer (une seule fois, dans le dossier du projet) :
+    py -m venv venv
+
+Activer (a chaque nouvelle session PowerShell) :
+    venv\Scripts\activate
+
+Si erreur "l'execution de scripts est desactivee" :
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+    venv\Scripts\activate
+
+Pour que ce soit permanent (a faire une seule fois, sans repeter Bypass) :
+    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+Sortir de l'environnement :
+    deactivate
+
+
+--- INSTALLER PYINSTALLER (dans le venv actif) ---
+    pip install pyinstaller
+
+
+--- COMPILER L'EXECUTABLE ---
+Methode rapide (recommandee) :
+    Unblock-File .\build.ps1      (uniquement si le fichier vient d'etre telecharge)
+    .\build.ps1
+
+Methode manuelle :
+    python -m PyInstaller --onefile --icon=assets\logo.ico gestionnaire_lignes.py
+
+    Puis copier le dossier assets a cote de l'exe genere :
+    New-Item -ItemType Directory -Path "dist\assets" -Force
+    Copy-Item "assets\logo.png" "dist\assets\logo.png"
+    Copy-Item "assets\logo.ico" "dist\assets\logo.ico"
+
+Nettoyer les anciens fichiers de build avant de recompiler :
+    Remove-Item -Recurse -Force dist, build, gestionnaire_lignes.spec -ErrorAction SilentlyContinue
+
+
+--- LANCER LE PROGRAMME DEPUIS LE CODE SOURCE (sans compiler) ---
+    python gestionnaire_lignes.py
+
+
+--- SI LA COMPILATION ECHOUE (PermissionError / FileNotFoundError sur le .exe) ---
+C'est generalement l'antivirus qui bloque l'ecriture du fichier.
+
+1) Ajouter une exclusion de DOSSIER pour le projet :
+    Securite Windows > Protection contre les virus et menaces
+    > Gerer les parametres > Ajouter ou supprimer des exclusions
+    -> Ajouter le dossier du projet
+
+2) Ajouter une exclusion de PROCESSUS (evite le probleme a l'avenir) :
+    Meme menu -> Exclusions -> Type "Processus"
+    -> Ajouter python.exe et pythonw.exe
+
+3) Si ca persiste, tester hors OneDrive dans un dossier simple :
+    mkdir C:\Projets
+    (copier les fichiers dedans et recompiler la-bas)
+
+
+--- FICHIER DE SAUVEGARDE DE L'APPLICATION ---
+Se cree automatiquement a cote de l'exe : sauvegarde_lignes.json
+Le supprimer remet l'application a zero (3 lignes par defaut).
+
+
+--- DISTRIBUER LE PROGRAMME A UN CLIENT/OPERATEUR ---
+Copier TOUT le dossier (pas juste l'exe seul) :
+    gestionnaire_lignes.exe
+    assets\ (logo.png + logo.ico)
+
+Windows SmartScreen affichera un avertissement au 1er lancement
+(exe non signe) -> "Informations complementaires" > "Executer quand meme"
+
+=====================================================
